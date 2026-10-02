@@ -3,6 +3,7 @@ from .network.isolation import isolated
 from .meters.balance import balance
 from .leak.localize import rank
 from .workflow_service import WorkflowService
+from .customers.triage import TriageQueue
 class AquaFlowService:
     def __init__(self):self.workflows=WorkflowService()
     def health(self):return {"service":"aquaflow","status":"ok","runtime_dependencies":0}
@@ -11,3 +12,4 @@ class AquaFlowService:
     def water_balance(self,ins,outs,known_loss):return balance(ins,outs,known_loss)
     def leak_rank(self,rows):return rank(rows)
     def run_workflow(self,name,payload,received_at=None):return self.workflows.run(name,payload,received_at)
+    def triage_queue(self,evidence_threshold=2,signal_floor=0.5):return TriageQueue(evidence_threshold,signal_floor)
